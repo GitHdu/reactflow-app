@@ -1,8 +1,17 @@
-import { Edge, EdgeChange, Node, NodeChange, ReactFlowInstance, Viewport } from 'reactflow';
-import { FlowTreeNode, InternalFlow } from '../types';
-import { DocWithHistoryManager } from '../utils/yjs';
+import {
+  Edge,
+  EdgeChange,
+  Node,
+  NodeChange,
+  ReactFlowInstance,
+  Viewport
+} from "reactflow";
+import { FlowTreeNode, InternalFlow } from "../types";
+import { DocWithHistoryManager } from "../utils/yjs";
 
 export interface FlowEditorState {
+  viewport: Viewport;
+
   flattenNodes: Record<string, Node>;
   onFlattenNodesChange?: (flattenNodes: Record<string, Node>) => void;
 
@@ -32,8 +41,13 @@ export interface FlowEditorState {
 
 export const initialState: FlowEditorState = {
   reactflow: {} as ReactFlowInstance,
+  viewport: {
+    x: 0,
+    y: 0,
+    zoom: 1
+  },
   flattenNodes: {},
   flattenEdges: {},
   selectedKeys: [],
-  yjsDoc: new DocWithHistoryManager<InternalFlow>(),
+  yjsDoc: new DocWithHistoryManager<InternalFlow>()
 };

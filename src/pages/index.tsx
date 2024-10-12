@@ -9,14 +9,22 @@ export default function HomePage() {
   return (
     <div>
       <Layout style={{ height: "100vh" }}>
-        <Sider width={200} theme='light'>
-          <NodeMenu />
-        </Sider>
-        <Content>
-          <FlowEditorProvider>
-            <Flow />
-          </FlowEditorProvider>
-        </Content>
+        <FlowEditorProvider>
+          <Flow>
+            <div
+              style={{
+                width: 200,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 999,
+                bottom: 0
+              }}
+            >
+              <NodeMenu />
+            </div>
+          </Flow>
+        </FlowEditorProvider>
       </Layout>
     </div>
   );

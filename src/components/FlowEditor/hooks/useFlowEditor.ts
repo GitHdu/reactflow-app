@@ -1,9 +1,14 @@
-import { useMemoizedFn } from 'ahooks';
-import { useCallback, useMemo } from 'react';
-import { ReactFlowInstance, XYPosition, useReactFlow } from 'reactflow';
-import { useStoreApi } from '../store';
-import { PublicStoreAction } from '../store/slices';
-import { FlattenEdges, FlattenNodes } from '../types';
+import { useMemoizedFn } from "ahooks";
+import { useCallback, useMemo } from "react";
+import {
+  ReactFlowInstance,
+  Viewport,
+  XYPosition,
+  useReactFlow
+} from "reactflow";
+import { useStoreApi } from "../store";
+import { PublicStoreAction } from "../store/slices";
+import { FlattenEdges, FlattenNodes } from "../types";
 
 export interface FlowEditorInstance extends PublicStoreAction {
   getFlattenNodes: () => FlattenNodes;
@@ -11,6 +16,7 @@ export interface FlowEditorInstance extends PublicStoreAction {
   getSelectedKeys: () => string[];
   reactflow?: ReactFlowInstance;
   screenToFlowPosition: (position: XYPosition) => XYPosition;
+  viewport: Viewport;
 }
 
 export const useFlowEditor = (): FlowEditorInstance => {
@@ -44,6 +50,7 @@ export const useFlowEditor = (): FlowEditorInstance => {
     // 最终提供给 hooks 实例的值
     ...instance
   } = storeApi.getState();
+
   /* eslint-enable */
 
   const getFlattenNodes = useMemoizedFn(() => storeApi.getState().flattenNodes);
@@ -54,7 +61,7 @@ export const useFlowEditor = (): FlowEditorInstance => {
       if (!reactFlowInstance) return { x: 0, y: 0 };
       return reactFlowInstance!.screenToFlowPosition!(position);
     },
-    [reactFlowInstance],
+    [reactFlowInstance]
   );
 
   return useMemo(
@@ -63,8 +70,8 @@ export const useFlowEditor = (): FlowEditorInstance => {
       screenToFlowPosition,
       getFlattenNodes,
       getSelectedKeys,
-      getFlattenEdges,
+      getFlattenEdges
     }),
-    [instance],
+    [instance]
   );
 };

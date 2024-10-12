@@ -2,6 +2,7 @@ import CustomEdge from "@/components/CustomEdge";
 import CustomNode from "@/components/CustomNode";
 import { FlowEditor, useFlowEditor } from "@/components/FlowEditor";
 import { useCallback } from "react";
+import { MarkerType } from "reactflow";
 
 const nodeTypes = {
   custom: CustomNode
@@ -9,8 +10,11 @@ const nodeTypes = {
 const edgeTypes = {
   custom: CustomEdge
 };
-
-export default () => {
+interface FlowProps {
+  children?: React.ReactNode;
+}
+export default (props: FlowProps) => {
+  const { children } = props;
   const editor = useFlowEditor();
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -22,7 +26,10 @@ export default () => {
       event.preventDefault();
 
       const type = event.dataTransfer.getData("application/reactflow");
-      const position = { x: event.clientX - 200, y: event.clientY };
+      const position = editor.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY
+      });
       const newNode = {
         id: Date.now().toString(),
         type,
@@ -39,15 +46,29 @@ export default () => {
     },
     [editor]
   );
+
   return (
     <FlowEditor
       nodeTypes={nodeTypes}
+      defaultViewport={editor.viewport}
       flowProps={{
         onDragOver,
         onDrop,
         edgeTypes,
-        defaultEdgeOptions: { type: "custom" }
+
+        defaultEdgeOptions: {
+          type: "custom",
+          markerEnd: {
+            type: MarkerType.ArrowClosed
+          },
+          style: {
+            strokeWidth: 2
+          }
+        }
       }}
-    ></FlowEditor>
+      devtools
+    >
+      {children}
+    </FlowEditor>
   );
 };

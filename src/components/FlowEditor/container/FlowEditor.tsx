@@ -64,12 +64,11 @@ export const useStyles = createStyles(({ css, token }) => ({
 
 type ComponentProps<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>
-> =
-  T extends JSXElementConstructor<infer P>
-    ? P
-    : T extends keyof JSX.IntrinsicElements
-      ? JSX.IntrinsicElements[T]
-      : Record<string, never>;
+> = T extends JSXElementConstructor<infer P>
+  ? P
+  : T extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[T]
+  : Record<string, never>;
 
 export interface FlowEditorAppProps {
   nodeTypes?: NodeTypes;
@@ -104,7 +103,7 @@ const FlowEditor = forwardRef<any, FlowEditorAppProps>(
   (
     {
       nodeTypes,
-      contextMenuEnabled = true,
+      contextMenuEnabled = false,
       style,
       className,
       flowProps,
@@ -173,7 +172,10 @@ const FlowEditor = forwardRef<any, FlowEditorAppProps>(
       firstRender.current = true;
       // 先把画布的 viewport 设置好
       if (!defaultViewport) {
-        instance.fitView();
+        instance.fitView({
+          minZoom: 0.8,
+          maxZoom: 0.8
+        });
       } else {
         instance.setViewport(defaultViewport);
       }
@@ -225,6 +227,7 @@ const FlowEditor = forwardRef<any, FlowEditorAppProps>(
           panOnScroll
           panOnDrag={false}
           zoomOnScroll={false}
+          elevateEdgesOnSelect
           selectionOnDrag
           style={style}
           {...flowProps}

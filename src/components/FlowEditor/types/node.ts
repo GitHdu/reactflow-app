@@ -1,5 +1,5 @@
-import { Node, NodeProps } from 'reactflow';
-import { MetaData } from './meta';
+import { Node, NodeProps } from "reactflow";
+import { MetaData } from "./meta";
 
 /**
  * 节点状态
@@ -49,4 +49,4 @@ export interface IFlowNodeData<T = any> extends IFlowBasicNodeData {
 
 export type IFlowBasicNode<T = any> = Node<IFlowNodeData<T>>;
 
-export type BasicFlowNodeProps<T> = NodeProps<IFlowNodeData<T>>;
+export type CustomNodeProps<T> = NodeProps<IFlowNodeData<T>>;
