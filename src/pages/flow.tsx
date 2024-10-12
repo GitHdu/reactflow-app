@@ -1,9 +1,15 @@
+import CustomEdge from "@/components/CustomEdge";
 import CustomNode from "@/components/CustomNode";
 import { FlowEditor, useFlowEditor } from "@/components/FlowEditor";
 import { useCallback } from "react";
+
 const nodeTypes = {
   custom: CustomNode
 };
+const edgeTypes = {
+  custom: CustomEdge
+};
+
 export default () => {
   const editor = useFlowEditor();
   const onDragOver = useCallback((event) => {
@@ -36,7 +42,12 @@ export default () => {
   return (
     <FlowEditor
       nodeTypes={nodeTypes}
-      flowProps={{ onDragOver, onDrop }}
+      flowProps={{
+        onDragOver,
+        onDrop,
+        edgeTypes,
+        defaultEdgeOptions: { type: "custom" }
+      }}
     ></FlowEditor>
   );
 };
