@@ -1,6 +1,12 @@
 {
   "private": true,
   "author": "yangwang <yangwang.yc@alibaba-inc.com>",
+  "keywords": [
+    "umi",
+    "antd",
+    "reactflow",
+    "pro-flow"
+  ],
   "scripts": {
     "dev": "umi dev",
     "build": "umi build",
